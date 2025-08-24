@@ -59,9 +59,11 @@ void free_strings(Strings strings)
 ** split_m splits a string at any occurence of pattern
 ** const char *string - string that is searched for the pattern
 ** const char *pattern - pattern which string should be split
-** return a String structure which contains an array of each string
+** return a Strings structure which contains an array of each string
 **
 ** note: you may assume string and pattern are not NULL
+**       If pattern is "", split_m performs NO split and returns a Strings with
+**       an array of one element: a malloc'd copy of 'string'
 ** hint 1: TA solution uses strlen_m, strstr_m, and strncpy_m
 ** hint 2: first calculate how many strings are needed, which is:
 **         (the number of times the delimiter appears + 1)
@@ -86,6 +88,7 @@ Strings split_m(const char *string, const char *pattern)
 ** return a string in which every occurence of pattern is replaced replacement
 **
 ** note: you may assume string, pattern, and replacement are all not NULL
+**       If pattern is "", return a malloc'd copy of 'string' unchanged (no insertions of 'replacement').
 ** hint: there are two main ways of implementing this function, one involves many lines, one involves four
 */
 char *find_and_replace_all_m(const char *string, const char *pattern, const char *replacement)

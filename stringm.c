@@ -146,6 +146,7 @@ Strings split_m(const char *string, const char *pattern) {
         result.strings[i++] = substr;
         ptr = pos + pattern_len;
     }
+    // The loop only goes to the last delimiter but there's still one more string left after that
     result.strings[i] = strncpy_m(ptr, strlen_m(ptr));
 
     return result;
@@ -164,11 +165,13 @@ Strings split_m(const char *string, const char *pattern) {
 */
 char *find_and_replace_all_m(const char *string, const char *pattern, const char *replacement) {
     if (strlen_m(pattern) == 0) {
-        char * copy = malloc(strlen_m(string) * sizeof(char));
-        copy = strncpy_m(string, strlen_m(string));
-        return copy;
+        return strncpy_m(string, strlen_m(string));
     }
-    return join_m(split_m(string, pattern), replacement);
+    // If just using join_m(split_m(...)) then the result from split_m is never freed
+    Strings strings = split_m(string, pattern); 
+    char * join = join_m(strings, replacement);
+    free_strings(strings);
+    return join;
 }
 
 /*

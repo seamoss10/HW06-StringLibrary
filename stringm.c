@@ -13,9 +13,14 @@
 **
 ** note: you can assume string is not NULL
 */
-size_t strlen_m(const char *string)
-{
-    return 0;
+size_t strlen_m(const char *string) {
+
+    size_t count = 0;
+    while(*string != '\0') {
+        count++;
+        string++;
+    }
+    return count;
 }
 
 /*
@@ -27,9 +32,20 @@ size_t strlen_m(const char *string)
 ** note: you can assume string is not NULL
 ** hint: you will need to malloc a size n + 1 string to accomodate the null character
 */
-char *strncpy_m(const char *string, size_t n)
-{
-    return NULL;
+char *strncpy_m(const char *string, size_t n) {
+
+    char * copy;
+    copy = (char *) malloc((n + 1) * sizeof(char));
+    if (copy == NULL) {
+        return NULL;
+    }
+
+    int i = 0;
+    for(i = 0; i < n; i++) {
+        copy[i] = string[i];
+    }
+    copy[i] = '\0';
+    return copy;
 }
 
 /*
@@ -41,18 +57,50 @@ char *strncpy_m(const char *string, size_t n)
 ** note: you can assume delimiter is not NULL
 ** hint: return NULL if strings.num_strings is 0
 */
-char *join_m(Strings strings, const char *delimiter)
-{
-    return NULL;
+char *join_m(Strings strings, const char *delimiter) {
+    if (strings.num_strings == 0) {
+        return NULL;
+    }
+
+    int total_size = 0;
+    int delim_size = (strings.num_strings - 1) * strlen_m(delimiter);
+    for(int i = 0; i < strings.num_strings; i++) {
+        total_size += strlen_m(strings.strings[i]);
+    }
+
+    char * join;
+    join = (char *) malloc((total_size + delim_size + 1) * sizeof(char));
+    if (join == NULL) {
+        return NULL;
+    }
+
+    int pos;
+    for(pos = 0; pos < strlen_m(strings.strings[0]); pos++) {
+        join[pos] = strings.strings[0][pos];
+    }
+
+    for(int i = 1; i < strings.num_strings; i++) {
+        for(int j = 0; j < strlen_m(delimiter); j++) {
+            join[pos++] = delimiter[j];
+        }
+        
+        for(int j = 0; j < strlen_m(strings.strings[i]); j++) {
+            join[pos++] = strings.strings[i][j];
+        }
+    }    
+
+    return join;
 }
 
 /*
 ** free_strings frees all allocated elements in strings
 ** String strings - free each string in strings.strings and strings.strings itself
 */
-void free_strings(Strings strings)
-{
-
+void free_strings(Strings strings) {
+    for(int i = 0; i < strings.num_strings; i++) {
+        free(strings.strings[i]);
+    }       
+    free(strings.strings);
 }
 
 /*

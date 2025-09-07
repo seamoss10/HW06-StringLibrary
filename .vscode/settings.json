@@ -9,6 +9,9 @@
     "__string": "c",
     "cstdlib": "c",
     "random": "c",
-    "thread": "c"
+    "thread": "c",
+    "iosfwd": "c",
+    "charconv": "c",
+    "format": "c"
   }
 }

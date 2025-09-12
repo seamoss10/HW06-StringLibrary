@@ -12,6 +12,7 @@
     "thread": "c",
     "iosfwd": "c",
     "charconv": "c",
-    "format": "c"
+    "format": "c",
+    "locale": "c"
   }
 }
